@@ -66,7 +66,7 @@ Fct_ProposerLettre() {
 		if [ "$(echo $MotAdeviner | grep $lettre)" = '' ] ; then 
 			potence=$((potence+1))
 		fi
-	cat ./Dessins/${potence}.txt
+	cat $dossierDessins${potence}.txt
 	echo $MotAdeviner | sed -e "s/[^${listelettres}@]/ _/gI"
 	echo "Ne sont pas dans le mot :"
 	echo $listelettres | sed -e "s/[$MotAdeviner]//gI"
@@ -107,7 +107,7 @@ Fct_Perdu() {
 Fct_Scores() {
 	
 	clear
-	cat ./Dessins/${potence}.txt
+	cat $dossierDessins${potence}.txt
 	echo -e "$BLEU RESULTATS FINAUX :"
 	echo -e "$VERT ------------------ \n\n"
 	echo -e "Vainqueur : $gagnant\n"
@@ -116,7 +116,7 @@ Fct_Scores() {
     echo -e "Mot deviné : `echo -e "$MotAdeviner" | sed -e "s/[^${listelettres}@]/ _/g"` (par $devineur)"
     echo -e "Essais : ${#listelettres}"
 	
-	echo -e "Vainqueur : $gagnant\nPerdant : $perdant\nMot à deviner : $MotAdeviner \n\n" >> pendu.txt
+	echo -e "Vainqueur : $gagnant\nPerdant : $perdant\nMot à deviner : $MotAdeviner \n\n" >> .pendu
 	
 	echo -e "$VERT""Voulez-vous rejouer ? O/N"
 	read -n 1 choix
@@ -167,6 +167,9 @@ BLEU="\\033[1;34m"
 JAUNE="\\033[1;33m"
 CACHE="\\033[47;1;37m"
 DEF="\\033[0;0m"
+
+fichierScores=".pendu"
+dossierDessins=".Dessins/"
 
 Fct_Jeu
 
