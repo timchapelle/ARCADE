@@ -7,6 +7,7 @@
 Fct_Jeu() {
 	clear
 	potence=0
+	listelettres=''
 		
 	echo -e "$ROUGE" "\t\t\tLE PENDU"
 	echo -e "$JAUNE" "\t\t\t--------""$NORMAL\n\n"
