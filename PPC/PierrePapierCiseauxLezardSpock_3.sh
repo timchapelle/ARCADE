@@ -14,7 +14,7 @@
 #	Modifications
 #		22 déc. 2015
 #			- Gère les mauvaises entrées des joueurs
-#			- Nbre de manches gagnantes décidée par les joueurs
+#			- Nbre de manches gagnantes décidé par les joueurs
 #		23 déc. 2015
 #			- (léger) Changement d'affichage pour les scores
 #		11 jan. 2016
