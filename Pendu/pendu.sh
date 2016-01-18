@@ -2,6 +2,7 @@
 
 # Jeu du Pendu 
 # Auteur : Tim C.
+# coAuteur : Matthieu Schmit
 # v1.0 : 18/01/2016
 
 Fct_Jeu() {
@@ -39,6 +40,7 @@ Fct_Jeu() {
 		
 	read MotAdeviner
 	Fct_EnleverAccent
+	Fct_TestAlpha
 	longueur=${#MotAdeviner}
 		
 		if [ $longueur -lt 3 ] ; then 
@@ -129,7 +131,7 @@ Fct_Scores() {
 	esac
 	}
 
-# Fct_EnleverAccent : by M.S.
+# Fct_EnleverAccent & Fct_TestAlpha : by M.S.
 Fct_EnleverAccent () {
 	saveMot=$MotAdeviner
 	MotAdeviner=""
@@ -156,6 +158,17 @@ Fct_EnleverAccent () {
 				MotAdeviner=$MotAdeviner${saveMot:$i:1}
 				;;
 		esac
+	done
+}
+
+Fct_TestAlpha () {
+	i=0
+	while [[ $i -lt ${#MotAdeviner} ]]; do
+		if [[ ${MotAdeviner:$i:1} != [[:alpha:]] ]]; then
+			echo "Entrez un vrai mot !!!"
+			exit 1
+		fi
+		i=$((i+1))
 	done
 }
 
