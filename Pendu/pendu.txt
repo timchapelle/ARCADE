@@ -1,0 +1,10 @@
+Vainqueur : tim
+Perdant : bot
+Mot à deviner : aAbBcCdDeE 
+
+
+Vainqueur : tim
+Perdant : bot
+Mot à deviner : aAbBcCdD 
+
+

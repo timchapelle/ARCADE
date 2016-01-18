@@ -1,0 +1,442 @@
+#! /bin/bash
+
+# Systèmes d'Exploitation - ISFCE (C. Lemaigre)
+# Créer un jeu de "Pierre-Papier-Ciseau" en 5 manches, qui affiche le score à la fin
+
+# PapierCiseauPierre_v2.0
+# Auteur : Tim
+# Release v1.0 : 19-12-2015
+# Release v1.1 : 22-12-2015
+
+# http://www.tux-planet.fr/les-codes-de-couleurs-en-bash/
+
+#TODO : + tard (bien plus tard) : jeu en réseau + graphique
+
+# v1.1 : Fonction MENU
+
+Fonction_Menu () {
+
+clear
+
+echo -e "$ROUGE""                         ..   "
+echo -e "$ROUGE""                          ;;.      .'"
+echo -e "$ROUGE""        .'.               .;.     .;'  "
+echo -e "$ROUGE""      ':::::.              ;,.   .;,    "
+echo -e "$ROUGE""      ;;::;:,              .,.   ;,.     "
+echo -e "$ROUGE""    ;;:;:;::,               ''..,,.        :;,..    "
+echo -e "$ROUGE""   .;;:,:;;:,            ':,,::;,'      .:::;,,,,'.  "
+echo -e "$ROUGE""   ';;:;;;;;,.;;.       .:::::;;''     .:;:::::;,,'   "
+echo -e "$ROUGE""   ;:;;;;;;,,:;'       .::;::::;,'      ':;:::::::'    "
+echo -e "$ROUGE""  .:;,,,,;:;::,.        :::::::;;.       .::::::::,    "
+echo -e "$ROUGE""  .:,,,,;:::;,,.        .:::::::;         .;::::::;    "
+echo -e "$ROUGE""   ::;,;:::;,,.          :::::::,            ::::;;.   "
+echo -e "$ROUGE""   '::;::::;,           .:::::::.             :::;;,   "
+echo -e "$ROUGE""   .:::::;;,            ;:::::;;              ::::;;   "
+echo -e "$ROUGE""  .::::;;;.           .:::::;;'              :::::;.  "
+echo -e "$ROUGE""   ;::::;;;            ::::::;:.             .::::::'  "
+echo -e "$ROUGE""   ::::;;,,           .::::::::.             '::::::;"
+echo -e "$BLEU""   --------------------------------------------------"
+echo -e "$JAUNE""     PAPIER             CISEAU                PIERRE  "
+echo -e "$BLEU""   --------------------------------------------------"
+echo -e "$VERT""                                               \xc2\xa9 T.C. 2015\n"
+echo -e "$BLEU""   --------------------------------------------------"
+echo -e "$CYAN""    JOUER (J)         REGLES (R)         SCORES (S)   ""$JAUNE""   QUITTER (Q)"
+echo -e "$BLEU""   --------------------------------------------------"
+
+read -n 1 choixMenu
+
+case $choixMenu in
+
+	"j"|"J") Fonction_ChoixJeu
+		;;
+	"r"|"R") Fonction_Regles
+		;;
+	"s"|"S") Fonction_Scores
+		;;
+	"q"|"Q") clear;exit
+		;;
+	*) Fonction_Menu
+
+esac
+
+Fonction_Menu
+
+} # Fin de la fonction Menu
+
+Fonction_ChoixJeu () { 
+
+clear
+echo -e "$JAUNE Quel mode de jeu souhaitez-vous utiliser ?"
+echo -e "$JAUNE ------------------------------------------\n"
+echo -e "$ROUGE \t 2 JOUEURS""$JAUNE (1)""$ROUGE""  \t\t\t JOUEUR VS CPU""$JAUNE (2)"	
+read -n 1 choixJeu
+
+case $choixJeu in 
+	1|2) Fonction_Jeu
+		
+		;;
+	*) echo "Tu sais compter jusqu'à 2 ?"
+		Fonction_ChoixJeu
+		;;
+esac
+
+	}
+
+# !NEW v1.1! Fonction_Regles : affichage des règles depuis le menu
+
+Fonction_Regles () {
+
+	clear
+
+	echo -e "$ROUGE""PAPIER-CISEAU-PIERRE : DU FUN DE 7 A 77 ANS"
+	echo -e "$BLEU""-------------------------------------------"
+	echo
+	echo -e "$VERT""REGLES\n\n""$JAUNE"
+	echo -e "    Les ciseaux coupent le papier\n     Le papier englobe la pierre\n     La pierre casse les ciseaux"
+	echo -e ""
+	echo -e ""
+
+	echo -e " --- Appuyez sur une touche pour revenir au menu ---"
+	read -n 1 x
+
+} # Fin de la fonction Règles
+
+# Calcul des résultats :
+# v1.1 : Fonction_Calcul
+
+Fonction_Calcul () {
+
+if [ $choix1 -eq $choix2 ] ; then echo -e "Egalité\n"
+
+
+	elif [ $choix1 -eq 1 ] && [ $choix2 -eq 2 ] ; then
+
+		echo -e "Le papier bat la pierre. Un point pour $Joueur2 !\n"
+		scoreJ2=$((scoreJ2 + 1))
+
+	elif [ $choix2 -eq 1 ] && [ $choix1 -eq 2 ] ; then
+
+		echo -e "Le papier englobe la pierre. Un point pour le $Joueur1 !\n"
+		scoreJ1=$((scoreJ1 + 1))
+
+	elif [ $choix1 -eq 2 ] && [ $choix2 -eq 3 ] ; then
+
+		echo -e "Le ciseau coupe le papier. Un point pour $Joueur2 !\n"
+		scoreJ2=$((scoreJ2 + 1))
+
+	elif [ $choix2 -eq 2 ] && [ $choix1 -eq 3 ] ; then
+
+		echo -e "Le ciseau coupe le papier. Un point pour $Joueur1 !\n"
+		scoreJ1=$((scoreJ1 + 1))
+
+	elif [ $choix1 -eq 1 ] && [ $choix2 -eq 3 ] ; then
+
+		echo -e "La pierre casse les ciseaux. Un point pour $Joueur1 !\n"
+		scoreJ1=$((scoreJ1 + 1))
+
+	elif [ $choix2 -eq 1 ] && [ $choix1 -eq 3 ] ; then
+
+		echo -e "La pierre casse les ciseaux. Un point pour $Joueur2 !\n"
+		scoreJ2=$((scoreJ2 + 1))
+
+else echo -e "Mauvais choix\n"
+
+fi
+
+
+	BLEU="\\033[0;34m"
+
+	echo -e "$JAUNE""                   SCORE"
+	echo -e "$ROUGE""                   ====="
+	echo -e "$BLEU""                   $Joueur1 : $scoreJ1"
+	echo -e "$BLEU""                   $Joueur2 : $scoreJ2"
+	echo -e "$NORMAL"
+
+	echo -e "--- Appuyez sur une touche pour continuer ---\n"
+
+	read -n 1 x
+
+	clear
+
+} # Fin de la fonction Calcul
+
+# v1.1 - Fonction Jeu
+
+Fonction_Jeu () {
+
+
+# Affectation du nom des joueurs :
+
+clear
+
+echo -e "Joueur 1, quel est ton nom ? \n" ; read Joueur1
+
+if [ $choixJeu = 1 ] ; then
+echo -e "Joueur 2, quel est ton nom ? \n" ; read Joueur2
+echo
+else Joueur2="CPU"
+fi
+
+# Détermination du nombre de tours :
+
+clear
+echo -e "$JAUNE""Combien de manches voulez-vous jouer ?\n" ; read nbTours # ajout 23/12
+
+# Compte à rebours avant la grosse fight :
+# v1.1 : suppression car très chiant
+
+# echo "Allez...prêts ? C'est parti dans "
+# echo "          3" ; sleep 1 ; echo "          2" ; sleep 1 ; echo "          1" ; sleep 1 ; clear
+
+# Boucle pour faire clignoter "FIGHT" en rouge 3 fois :
+
+i=0
+
+while [ $i -lt 3 ] ; do
+
+	clear
+
+	echo -e "$ROUGE""          FFFFFFF   III    GGGGGGG      HH   HH   TTTTTTTT"
+	echo -e "$ROUGE""          FF         I     GG           HH   HH      TT"
+	echo -e "$ROUGE""          FFFFF      I     GG  GGG      HHHHHHH      TT "
+	echo -e "$ROUGE""          FF         I     GG    G      HH   HH      TT "
+	echo -e "$ROUGE""          FF        III    GGGGGGG      HH   HH      TT "
+
+	sleep 0.5 ; clear ; sleep 0.5
+
+	i=$((i+1))
+
+done
+
+# Initialisation des variables :
+
+tour=1
+scoreJ1=0
+scoreJ2=0
+
+# Début de la boucle principale :
+
+while [ $tour -le $nbTours ] ; do  # Max. le nombre de tours décidé par les joueurs
+
+# Les joueurs choisissent une arme chacun à leur tour :
+
+echo -e "$JAUNE""PAPIER-CISEAU-PIERRE - Tour $tour\n"
+echo -e "$ROUGE""---------------------------------\n"
+echo -e "$NORMAL" "$Joueur1, choisis ton arme :\n"
+echo -e "1. Pierre\n2. Papier\n3. Ciseau\n"
+
+read choix1
+let $choix1
+
+		while [[ $? -eq 1 ]] || [ $choix1 != "1" ] && [ $choix1 != "2" ] && [ $choix1 != "3" ] ; do
+			echo -e "$ROUGE""    Euh... Tu sais compter jusqu'à 3 ? \n"
+			read choix1
+			let $choix1
+		done
+
+		echo -e "$default"
+
+		clear
+if [ $choixJeu = 1 ] ; then
+
+echo -e "$JAUNE""PAPIER-CISEAU-PIERRE - Tour $tour\n"
+echo -e "$ROUGE""---------------------------------\n"
+echo -e "$NORMAL""$Joueur2, choisis ton arme :\n"
+echo -e "1. Pierre\n2. Papier\n3. Ciseau\n"
+
+read choix2
+let $choix2
+
+		while [[ $? -eq 1 ]] || [ $choix2 != "1" ] && [ $choix2 != "2" ] && [ $choix2 != "3" ] ; do
+
+			echo -e "$ROUGE""    Euh... Tu sais compter jusqu'à 3 ? \n""$NORMAL"
+			read choix2
+			let $choix2
+
+		done
+
+		clear
+else 
+	choix2=$((RANDOM % 2 + 1))
+
+fi
+tour=$((tour + 1)) # Incrémentation + 1 du nombre de tours (max. le nombre de tours déterminé par les utilisateurs)
+match=$((match + 1)) # Incrémentation + 1 du nombre de matches (utilisé pour l'affichage des scores)
+Fonction_Calcul
+
+done
+
+# Détermination et affichage du vainqueur :
+
+if [ $scoreJ1 -lt $scoreJ2 ] ; then
+
+	echo -e "$ROUGE""          WINNER          LOSER "
+	echo -e "$ROUGE""          ======          ===== "
+	echo -e
+	echo -e "$JAUNE""          $Joueur2            $Joueur1"
+	echo -e "$BLEU" "          $scoreJ2            $scoreJ1"
+
+	vainqueur=$Joueur2
+
+	elif [ $scoreJ1 -gt $scoreJ2 ] ; then
+
+	echo -e "$ROUGE""          WINNER          LOSER "
+	echo -e "$ROUGE""          ======          ===== "
+	echo
+	echo -e "$JAUNE""          $Joueur1            $Joueur2"
+	echo -e "$BLEU" "          $scoreJ1               $scoreJ2"
+	echo -e "$NORMAL"  # A mettre pour revenir à la couleur par défaut
+
+	vainqueur=$Joueur1
+
+	else
+
+	echo -e "Egalité, $Joueur1 et $Joueur2 sont des losers"
+	vainqueur="Match nul"
+
+fi
+
+date=`date | cut -c1-23 | sed 's/^.\| [a-z]/\U&/g'` # Afficher la date au format Jour #xx Mois Année Ex : Mardi 22 Décembre 2015
+echo -e "$date\nMatch : $Joueur1 vs $Joueur2\nVainqueur :  $vainqueur\nNombre de manches : $nbTours\nScore : $scoreJ1 - $scoreJ2\n\n--------------------\n\n" >> .dbscores
+date2=`date +%x`
+echo -e "$date2 - $Joueur1 $scoreJ1 : $scoreJ2 $Joueur2\n" >> .recapscores
+echo -e "$JAUNE""\n--- Appuyez sur une touche pour recommencer, ou (q) pour quitter---"
+
+read -n 1 choixRejouer
+
+case $choixRejouer in
+
+	"q") echo -e "\n Rentre chez toi ta mère t'a fait des crêpes !"
+		exit 0
+		;;
+	*) Fonction_Menu
+
+esac
+
+}
+
+Fonction_Scores () {
+
+	clear
+	echo -e "$JAUNE""  PAPIER-CISEAU-PIERRE : TABLEAU DES SCORES"
+	echo -e "$ROUGE""  -----------------------------------------\n"
+	echo -e "$VERT"" (H)ISTORIQUE  |  (R)ECHERCHE  | (S)UPPRESSION"
+
+	if [ -e .recapscores ] ; then
+
+		echo -e "$BLEU"
+		echo -e "Dernières parties :"
+		echo -e "-------------------"
+		tail -n 4 .recapscores
+		echo -e "$JAUNE""\n--- Appuyez sur une touche pour revenir au menu ---\n"
+		read -n 1 choixScores
+
+
+	else echo -e "$BLEU""\nAucune partie jouée !"
+	     echo -e "$JAUNE""\n--- Appuyez sur une touche pour revenir au menu ---\n"
+		 read -n 1 choixScores
+	fi
+
+	case $choixScores in
+
+			"r"|"R") if [ -e .dbscores ] ;then
+					 clear
+					 echo -e "$ROUGE""Entrez le nom d'un joueur :\n\n""$NORMAL"
+                     read findJoueur
+                     resultatR=`grep "$findJoueur" .recapscores`
+                     	if [ -n "$resultatR" ] ; then
+                     		 echo -e "$BLEU""\nRésultats de la recherche :"
+                     		 echo -e        "---------------------------"
+                     		 echo -e "$BLEU""\n\n`grep "$findJoueur" .recapscores`\n\n"
+                     		 echo -e "$JAUNE""--- Appuyez sur une touche pour revenir en arrière ---\n"
+                     		 read -n 1 x
+                     		 Fonction_Scores
+                 	 	else echo -e "$BLEU""\n\nAucun résultat !\n\n"
+                     		 echo -e "$JAUNE""--- Appuyez sur une touche pour revenir en arrière ---\n"
+                     		 read -n 1 x
+                     		 Fonction_Scores
+                     	fi
+
+                     else
+                 	        clear
+                     		echo -e "$ROUGE"" TU CROIS QU'IL EST CON ?"
+
+
+							echo -e "$JAUNE""--- Appuyez sur une touche pour revenir en arrière ---\n"
+                     		read -n 1 x
+                     		Fonction_Scores
+
+                     fi
+                     						;;
+            "h"|"H") if [ -e .dbscores ] ;then
+					    clear
+						echo -e "$JAUNE"
+						echo -e "Historique des scores par ordre chronologique"
+						echo -e "---------------------------------------------\n"
+						echo -e "$BLEU"
+						cat .dbscores
+						echo -e "$JAUNE""--- Appuyez sur une touche pour revenir en arrière ---\n"
+                     	read -n 1 x
+                     	Fonction_Scores
+                     else
+                        clear
+                     	echo -e "$ROUGE""Comment veux-tu rechercher quoi que ce soit\n si tu n'as pas encore joué ?"
+						echo -e "$JAUNE""--- Appuyez sur une touche pour revenir en arrière ---\n"
+                   		read -n 1 x
+                   		Fonction_Scores
+					fi
+								 		;;
+			"s"|"S") sudo rm .dbscores .recapscores
+					 clear
+					 echo -en "$VERT""\n            Démarrage de l'opération .";sleep 0.5;echo -en ".";sleep 0.5; echo -en ".";sleep 0.5
+					 echo -en "$VERT""\n            Formatage de /home en cours .";sleep 0.5;echo -en ".";sleep 0.5; echo -en ".";sleep 0.5
+
+					 echo -en "$VERT""\n            Démagnétisation du disque dur .";sleep 0.5;echo -en ".";sleep 0.5; echo -en ".";sleep 0.5
+					 sleep 0.8
+					 echo
+					t=0
+					 for ((t=0 ; 4 - t ; t++)) ; do
+
+					 echo -e "$ROUGE"
+					 echo "                        -. .              "
+					 echo  "                   _____   ',' ,         "
+					 echo  "                 ,'     ,'   ', ',       "
+					 echo  "               ,'     ,'      |  |       "
+					 echo  "              \       \       |  |       "
+					 echo  "                \ /^\   \    ,' ,'       "
+					 echo  "                      \   \ ,' ,'        "
+					 echo  "                / ~-.___\.-'  ,'         "
+					 echo  "              /   .______.- ~ \          "
+					 echo  "            /   /'          \   \        "
+					 echo  "            \./               \/'        "
+					 sleep 2
+
+					echo -en "$ROUGE""\n            Vous pouvez arrêter cette opération en jetant votre ordinateur\ntrès violemment au sol !";sleep 0.9;echo -en "!";sleep 0.9; echo -en "!";sleep 0.9
+					sleep 0.8
+
+					done
+										;;
+
+                  *) Fonction_Menu
+
+	esac
+
+	}
+
+# "Main" du jeu. Instructions lues en premier lieu.
+
+# Couleurs des polices à utiliser plus tard. Syntaxe : echo -e "$COULEUR ..."
+
+VERT="\\033[1;32m"
+NORMAL="\\033[0;39m"
+ROUGE="\\033[1;31m"
+ROSE="\\033[1;35m"
+BLEU="\\033[1;34m"
+BLANC="\\033[0;02m"
+BLANCLAIR="\\033[1;08m"
+JAUNE="\\033[1;33m"
+CYAN="\\033[1;36m"
+
+# Lancement de la fonction Menu au démarrage :
+
+Fonction_Menu
