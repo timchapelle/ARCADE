@@ -18,13 +18,16 @@ Fct_Jeu() {
 	read Joueur2
 	
 	echo -e "\n $VERT Qui va devoir deviner le mot ?\n\n"
-	echo -e "$JAUNE $Joueur1 (1)\t ou \t $Joueur2 ? (2) \n\n"
-	read -n 1 x
+	choixJ=3
+	while [[ $choixJ -ne 1 && $choixJ -ne 2 ]] ; do 
+		echo -e "$JAUNE $Joueur1 (1)\t ou \t $Joueur2 ? (2) \n\n"
+		read -n 1 choixJ
+	done
 	
 	statut='ko'
 	while [ $statut != 'ok' ] ; do
 	
-		if [ $x -eq 1 ] ; then 
+		if [ $choixJ -eq 1 ] ; then 
 		echo -e "$VERT $Joueur2, rentre le mot à deviner (3-10 lettres)\n\n$CACHE"
 			devineur=$Joueur1
 			cacheur=$Joueur2
