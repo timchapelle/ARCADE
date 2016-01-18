@@ -1,4 +1,4 @@
-#ARCADE
+#ARCADE - WELCOME TO TIM & MATTH'S PLAYGROUND
 
 Ce dépôt contient différents jeux codés en Bash, dans le cadre
 d'un projet scolaire.
