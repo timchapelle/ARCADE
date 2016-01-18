@@ -1,4 +1,6 @@
 #!/bin/bash
+#Auteurs : Tim C. & Matth S.
+#Release v1.0 : 18/01/2016
 
 cat .tux
 echo
