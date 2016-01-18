@@ -1,0 +1,10 @@
+Vainqueur : gwen
+Perdant : tim
+Mot à deviner : linux 
+
+
+Vainqueur : tim
+Perdant : bot
+Mot à deviner : chacal 
+
+
