@@ -35,6 +35,7 @@ Fct_Jeu() {
 		fi
 		
 	read MotAdeviner
+	Fct_EnleverAccent
 	longueur=${#MotAdeviner}
 		
 		if [ $longueur -lt 3 ] ; then 
@@ -124,7 +125,37 @@ Fct_Scores() {
 					;;
 	esac
 	}
-		
+
+# Fct_EnleverAccent : by M.S.
+Fct_EnleverAccent () {
+	saveMot=$MotAdeviner
+	MotAdeviner=""
+
+	for (( i = 0; i < ${#saveMot}; i++ )); do
+
+		case ${saveMot:$i:1} in
+			"é"|"è"|"ê"|"ë")
+				MotAdeviner=$MotAdeviner"e"
+				;;
+			"à"|"â"|"ä")
+				MotAdeviner=$MotAdeviner"a"
+				;;
+			"ç")
+				MotAdeviner=$MotAdeviner"c"
+				;;
+			"ô"|"ö"|"ó"|"ò")
+				MotAdeviner=$MotAdeviner"o"
+				;;
+			"î"|"ï"|"í"|"ì")
+				MotAdeviner=$MotAdeviner"i"
+				;;
+			?)
+				MotAdeviner=$MotAdeviner${saveMot:$i:1}
+				;;
+		esac
+	done
+}
+
 #Couleurs:	
 VERT="\\033[1;32m"
 NORMAL="\\033[0;39m"
