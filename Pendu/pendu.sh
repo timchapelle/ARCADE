@@ -23,7 +23,12 @@ Fct_Menu() {
 	case $choixJeu in 
 		'j'|'J') Fct_Jeu
 			;;
-		'c'|'C') Fct_TirerUnMot
+		'c'|'C')echo -e "$BLEU Joueur 1, quel est ton nom ? $NORMAL"
+				read Joueur1 
+				Joueur2='BrainMaster'
+				cacheur='BrainMaster'
+				devineur=Joueur1
+				Fct_TirerUnMot
 			;;
 		*) echo -e "$ROUGE Alors, ... C ou J, J ou C, à toi de choisir"
 		   read -n 1 choixJeu
@@ -75,11 +80,9 @@ Fct_Jeu() {
 			else 
 				echo -e "$DEF"
 				clear
-								statut='ok'
+				statut='ok'
 			fi
 		done
-	else Joueur2='BrainMaster'
-		 Fct_TirerUnMot
 	fi
 	Fct_TestAlpha	
 	Fct_ProposerLettre
@@ -88,7 +91,7 @@ Fct_Jeu() {
 Fct_ProposerLettre() {
 	Fct_EnleverAccent
 	
-	echo -e "$BLEU\n\t\t\tC'est parti, on va donc jouer avec ${#MotAdeviner} lettres"
+	echo -e "$BLEU\n\t\t\tC'est parti, $Joueur2 a choisi un mot de ${#MotAdeviner} lettres"
 	while [ $potence -lt 10 ]; do
 	echo -e "$BLEU Tapez une lettre : \n $NORMAL"
 	read -n 1 lettre
@@ -182,6 +185,11 @@ Fct_EnleverAccent () {
 				;;
 			"î"|"ï"|"í"|"ì")
 				MotAdeviner=$MotAdeviner"i"
+				;;
+			"û"|"ü"|"ù"|"ú")
+				MotAdeviner=$MotAdeviner"u"
+				;;
+			$IFS) MotAdeviner=$MotAdeviner	
 				;;
 			?)
 				MotAdeviner=$MotAdeviner${saveMot:$i:1}
