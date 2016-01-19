@@ -239,8 +239,13 @@ Fct_TirerUnMot () {
 	
 	nb1=$( wc -l $listetxt | cut -f1 -d' ' )  # compte le nombre de lignes dans le fichier listetxt et en extrait le premier champ
 	n=$(( RANDOM % $nb1 + 1 ))                # déclaration d'un nombre aléatoire, utilisé pour sélectionner une ligne hasard
-	MotAdeviner=$( sed -n ${n}p $listetxt | cut -f1 -d' ' ) # Le mot à trouvr = le premier champ de la ligne n du fichier listetxt
-	Fct_ProposerLettre # 
+	MotAdeviner=$( sed -n ${n}p $listetxt ) # Le mot à trouver = le premier champ de la ligne n du fichier listetxt
+
+	taille=${#MotAdeviner}                  # Résolution temporaire du bug de merde du caractère en trop
+	taille=$((taille-1))
+	MotAdeviner=${MotAdeviner:0:$taille}
+	
+	Fct_ProposerLettre # Appel de la fonction permettant de commencer à jouer
 }
 
 #Déclaration des variables globales : 
