@@ -1,4 +1,4 @@
-#ARCADE - WELCOME TO TIM & MATTH'S PLAYGROUND
+#WELCOME TO TIM & MATTH'S PLAYGROUND
 
 Ce dépôt contient différents jeux codés en Bash ou en C++, dans le cadre
 d'un projet scolaire. A exécuter sous Unix (Linux de préférence pour une compatibilité optimale).
