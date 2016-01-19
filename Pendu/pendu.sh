@@ -84,13 +84,13 @@ Fct_Jeu() {
 			fi
 		done
 	fi
-	Fct_TestAlpha	
+	Fct_TestAlpha
+	Fct_EnleverAccent	
 	Fct_ProposerLettre
 	}
 	
 Fct_ProposerLettre() {
-	Fct_EnleverAccent
-	
+		
 	echo -e "$BLEU\n\t\t\tC'est parti, $Joueur2 a choisi un mot de ${#MotAdeviner} lettres"
 	while [ $potence -lt 10 ]; do
 	echo -e "$BLEU Tapez une lettre : \n $NORMAL"
@@ -100,7 +100,7 @@ Fct_ProposerLettre() {
 			potence=$((potence+1))
 		fi
 	cat $dossierDessins${potence}.txt
-	echo $MotAdeviner | sed -e "s/[^${listelettres}@]/ _/gI"
+	echo $MotAdeviner | sed -e "s/[^${listelettres}@]/ _/g"
 	echo "Ne sont pas dans le mot :"
 	echo $listelettres | sed -e "s/[$MotAdeviner]//gI"
 	
@@ -211,9 +211,9 @@ Fct_TestAlpha () {
 
 Fct_TirerUnMot () {
 	
-	nb1=$( wc -l $liste | cut -f1 -d' ' )
+	nb1=$( wc -l $listetxt | cut -f1 -d' ' )
 	n=$(( RANDOM % $nb1 + 1 ))
-	MotAdeviner=$( sed -n ${n}p $liste )
+	MotAdeviner=$( sed -n ${n}p $listetxt )
 	Fct_ProposerLettre
 }
 #Couleurs:	
@@ -227,7 +227,7 @@ DEF="\\033[0;0m"
 
 fichierScores=".pendu"
 dossierDessins=".Dessins/"
-liste=".liste"
+listetxt=".liste"
 
 Fct_Menu
 
