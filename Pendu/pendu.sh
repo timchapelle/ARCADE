@@ -1,14 +1,23 @@
 #!/bin/bash
+#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#
+#                                                     # 
+#        LE JEU DU PENDU - PAR TIM C. & MATTH S.      # 
+#                                                     #
+#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#
+# Release v1.0 : 18/01/2016
 
-# Jeu du Pendu 
-# Auteur : Tim C.
-# coAuteur : Matthieu Schmit
-# v1.0 : 18/01/2016
+# Ce jeu a été codé uniquement avec des fonctions.
+# Le jeu se lance en appelant uniquement la Fct_Menu. Rien d'autre (excepté l'initialisation
+# des variables de couleurs de texte) ne se trouve dans le "main".
+# 2 modes de jeu sont actuellement possibles : 1 vs 1 ou 1 vs CPU
 
+# TODO : vérifier Fct_TirerUnMot (1 caractère en trop à la fin du mot tiré)
+
+# Fonction Menu : appelée en premier lieu. Permet de définir le mode de jeu.
 Fct_Menu() {
 	clear
-	potence=0
-	listelettres=''
+	potence=0         # (Ré-)Initialisation du compteur pour l'affichage des dessins de la potence
+	listelettres=''   # Ré-initialisation de la liste de lettres entrées par l'utilisateur, si celui-ci rejoue.
 	
 	echo -e "$JAUNE" "\t\t\t ___________"
 	echo -e "$JAUNE" "\t\t\t|           |"
@@ -145,21 +154,20 @@ Fct_Scores() {
 	echo -e "$VERT ------------------ \n\n"
 	echo -e "Vainqueur : $gagnant\n"
 	echo -e "$ROUGE""Loser : $perdant\n"
-	echo -e "$JAUNE""Mot à deviner : $MotAdeviner (par $cacheur)"
-    echo -e "Mot deviné : `echo -e "$MotAdeviner" | sed -e "s/[^${listelettres}@]/ _/g"` (par $devineur)"
+	echo -e "$JAUNE$cacheur avait choisi le mot : ""$MotAdeviner"
+	echo -e "Mot deviné : `echo -e "$MotAdeviner" | sed -e "s/[^${listelettres}@]/ _/g"` (par $devineur)"
     echo -e "Essais : ${#listelettres}"
 	
 	echo -e "Vainqueur : $gagnant\nPerdant : $perdant\nMot à deviner : $MotAdeviner \n\n" >> .pendu
 	
-	echo -e "$VERT""Voulez-vous rejouer ? O/N\nOu retourner au (M)enu ?"
+	echo -e "$VERT""Voulez-vous rejouer ? O/N"
 	read -n 1 choix
 	
 	case $choix in 
-		'o'|'O') Fct_Jeu
+		'o'|'O') Fct_Menu
 					;;
-		'm'|'M') Fct_Menu
-					;;
-			  *) exit 0
+		*) echo "A la prochaine sur Hangman !"
+		   exit 0
 	esac
 	}
 
@@ -213,7 +221,7 @@ Fct_TirerUnMot () {
 	
 	nb1=$( wc -l $listetxt | cut -f1 -d' ' )
 	n=$(( RANDOM % $nb1 + 1 ))
-	MotAdeviner=$( sed -n ${n}p $listetxt )
+	MotAdeviner=$( sed -n ${n}p $listetxt | cut -f1 -d' ' )
 	Fct_ProposerLettre
 }
 #Couleurs:	
