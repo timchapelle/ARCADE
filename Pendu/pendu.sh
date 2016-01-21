@@ -111,6 +111,7 @@ Fct_ProposerLettre() {
 	while [ $potence -lt 10 ]; do
 	echo -e "$BLEU Tapez une lettre : \n $NORMAL"
 	read -n 1 lettre
+	echo
 	listelettres=$listelettres$lettre
 		if [ "$(echo $MotAdeviner | grep $lettre)" = '' ] ; then    # Si la lettre ne se trouve pas dans le mot à deviner
 			potence=$((potence+1))                                  # alors on incrémente la potence de 1
