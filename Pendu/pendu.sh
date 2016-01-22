@@ -16,7 +16,7 @@
 # Fonction Menu : appelée en premier lieu. Permet de définir le mode de jeu.
 Fct_Menu() {
 	clear
-	
+	choixJeu=''
 	potence=0         # (Ré-)Initialisation du compteur pour l'affichage des dessins de la potence
 	listelettres=''   # Ré-initialisation de la liste de lettres entrées par l'utilisateur, si celui-ci rejoue.
 	
@@ -29,7 +29,12 @@ Fct_Menu() {
 	echo -e "$BLEU\t| $VERT (J)1 vs J2$BLEU |\t\t\t| $VERT J1 vs (C)PU$BLEU |"
 	echo -e "$BLEU\t|_____________|\t\t\t|______________|"
 	
-	read -n 1 choixJeu       # Le prochain caractère lu sera stocké dans la variable 'choixJeu'
+	
+	read -n 1 choixJeu # Le prochain caractère lu sera stocké dans la variable 'choixJeu'
+	while [[ $choixJeu != 'c' && $choixJeu != 'C' && $choixJeu != 'j' && $choixJeu != 'J' ]] ; do
+	echo -e "$ROUGE C ou J sont tes options, J ou C tu peux choisir "       
+	read -n 1 choixJeu
+	done
 	case $choixJeu in        
 		'j'|'J') Fct_Jeu
 			;;
@@ -42,7 +47,9 @@ Fct_Menu() {
 			;;
 		*) echo -e "$ROUGE Alors, ... C ou J, J ou C, à toi de choisir" 
 		   read -n 1 choixJeu    # Si l'utilisateur entre un mauvaix choix, on relit son choix
+		   
 	esac
+	
 }
 
 # Fonction Jeu : utilisée en mode 1 vs 1
@@ -173,6 +180,7 @@ Fct_Scores() {
 	echo -e "Vainqueur : $gagnant\nPerdant : $perdant\nMot à deviner : $MotAdeviner \n\n" >> .pendu
 
 # Invitation à rejouer	
+	
 	echo -e "$VERT""Voulez-vous rejouer ? O/N"
 	read -n 1 choix
 	
@@ -183,7 +191,6 @@ Fct_Scores() {
 		   exit 0
 	esac
 	}
-
 
 # Fonction EnleverAccent permet de remplacer les caractères accuentués entrés par l'utilisateur 
 # par leur équivalent sans accent.
