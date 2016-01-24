@@ -14,7 +14,7 @@
 #include <array>
 using namespace std;
 
-enum Couleur { vide, rouge, jaune };
+enum Couleur { vide, rouge, vert };
 typedef array<array<Couleur, 7>, 6> Grille;
 
 // Fonction d'initialisation de la grille
@@ -27,28 +27,28 @@ void initialise(Grille& grille)  // on pourrait aussi imaginer Grille grille(ini
 	}
 }
 // Fonction d'affichage de la grille
-// Affiche O pour une case rouge, X pour une jaune et ' ' pour une vide
+// Affiche O pour une case rouge, X pour une vert et ' ' pour une vide
 void affiche(const Grille& grille)  // protège l'affichage de la grille d'une modification intempestive de son contenu
 { 
 	for(auto ligne : grille) {  // ici pas de & car on ne fait que consulter le contenu, on ne le modifie pas
-		cout << " |";
+		cout << "\e[1;34m" << " |" << "\e[0m";
 		for(auto kase : ligne) {
 			if (kase == vide) {
 				cout << ' ';
 			} 	else if (kase == rouge) {
-				cout << 'O';
+				cout << "\e[41m" << 'O' << "\e[0m";
 			}	else {
-				cout << 'X';
+				cout << "\e[42m" << 'X' << "\e[0m";
 			}
-			cout << '|';
+			cout << "\e[1;34m" << '|' << "\e[0m";
 		}
 		cout << endl;
 	} // Maintenant on affiche les numéros de colonnes en dessous de la grille, précédés du symbole ' = '
-	cout << '=';
+	cout << "\e[1;34m" << '=' << "\e[0m";
 	for(size_t i(1);i <= grille[0].size(); ++i) {
-		cout << '=' << i;
+		cout << "\e[1;34m" << '=' << "\e[1;33m" << i;
 	}
-	cout << "==";
+	cout << "\e[1;34m" << "==" << "\e[0m";
 	cout << endl << endl;
 }
 // Fonction "Joue"
@@ -82,10 +82,10 @@ void demande_et_joue(Grille& grille, Couleur couleur_joueur)
 {	size_t colonne;
 	bool valide( joue(grille, colonne, couleur_joueur) );
 	cout << "Joueur ";
-	if (couleur_joueur == jaune) {
-		cout << 'X';
+	if (couleur_joueur == vert) {
+		cout << "\e[42m" << 'X' << "\e[0m";
 	} else {
-		cout << 'O';
+		cout << "\e[41m" << 'O' << "\e[0m";
 	} 
 	cout << " : entrez un numéro de colonne " << endl;
 	
@@ -171,7 +171,7 @@ int main()
 	initialise(grille);
 	affiche(grille);
 	
-	Couleur couleur_joueur(jaune);
+	Couleur couleur_joueur(vert);
 	bool gagne;
 	
 	do {
@@ -181,16 +181,16 @@ int main()
 		gagne = est_ce_gagne(grille, couleur_joueur);
 		
 		// on change la couleur pour la couleur de l'autre joueur :
-		if (couleur_joueur == jaune) {
+		if (couleur_joueur == vert) {
 		  couleur_joueur = rouge;
 		} else {
-		  couleur_joueur = jaune;
+		  couleur_joueur = vert;
 		}
 	} while (not gagne and not plein(grille));
 	
 	
 	if (gagne) {
-		if (couleur_joueur == jaune) {
+		if (couleur_joueur == vert) {
 			cout << "Le joueur O a gagné!" << endl;
 		} else {
 			cout << "Le joueur X a gagné!" << endl;
