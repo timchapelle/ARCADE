@@ -34,21 +34,16 @@ void InitPaquet() {
 // Pas besoin de mélanger le tableau au départ, ni de vérifier qu'une carte a déjà été distribuée, ... 
 Carte *Distribue(Carte *pCarte) {
 	int indice;
-	if (indiceMax) {
+	if (indiceMax != 0) {
 		indice=rand()%(indiceMax);
 	} else {
 		indice=0;
 	  }
-// On renseigne la carte choisie, prise au hasard :
-	*pCarte = Paquet[indice];
-// Très important : insérer la dernière carte du paquet à la place !
-	Paquet[indice] = Paquet[indiceMax];
-// On enlève une carte du paquet : 
-	indiceMax--;
-// On retourne la carte tirée :
-	return pCarte;
+	*pCarte = Paquet[indice]; // On renseigne la carte choisie, prise au hasard 
+	Paquet[indice] = Paquet[indiceMax]; // Très important : insérer la dernière carte du paquet à la place !
+	indiceMax--;// On enlève une carte du paquet : 
+	return pCarte;// On retourne la carte tirée :
 }
-	
 int main() {
 	Carte carte;
 	srand(time(NULL)); // On initialise le générateur aléatoire
@@ -57,7 +52,7 @@ int main() {
 	//Distribution proprement dite :
 	for (int i = 0; i < 52; i++) {
 		Distribue(&carte);
-		cout << i+1 << " -- " << TabValeur[carte.valeur] << " de " << TabCouleur[carte.couleur] << endl;
+		cout << i+1 << " -- " << TabValeur[carte.valeur] << " de " << TabCouleur[carte.couleur] << &carte << endl;
 	}
 	return 0;
 }
