@@ -1,4 +1,5 @@
 <code>                   _______________________________
+/*                   _______________________________
                   /    Welcome to Tim & Matth's   \
                   \       Arcade Playground !     /
                    -------------------------------
@@ -8,7 +9,7 @@
      //   \ \         
     (|     | )
    /'\_   _/`\        
-   \___)=(___/	
+   \___)=(___/		*/
 </code>
 
 Ce dépôt contient différents jeux codés en Bash ou en C++, dans le cadre
