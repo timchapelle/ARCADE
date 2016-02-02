@@ -21,6 +21,10 @@ Pour lancer le menu principal, exécutez tmPlayground.sh
 
 <h1>Jeux disponibles</h1>
 
+<h2> lesBâtonnets++ (!Nouveauté!) </h2>
+<strong>Auteur : </strong> Matth S. <br>
+Adaptation en c++ du célèbre jeu des bâtonnets dans Fort Boyard. <br>
+<br><br>
 <h2> P4++ (!Nouveauté!) </h2>
 <strong>Auteur : </strong> Tim C. <br>
 	Adaptation en C++ du jeu Puissance 4. <br>
